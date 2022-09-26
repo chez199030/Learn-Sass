@@ -3,6 +3,7 @@
 const { src, dest, watch, series, parallel } = require("gulp");
 // Importing all the Gulp-related packages we want to use
 const sass = require("gulp-sass")(require("sass"));
+//const purgecss = require("gulp-purgecss");
 const concat = require("gulp-concat");
 const terser = require("gulp-terser");
 const postcss = require("gulp-postcss");
@@ -16,7 +17,7 @@ const htmlmin = require("gulp-htmlmin");
 const files = {
   scssSrcPath: "app/src/scss/**/*.scss",
   jsSrcPath: "app/src/js/**/*.js",
-  htmlSrcPath: "app/src/*.html",
+  htmlSrcPath: "app/src/**/*.html",
 };
 
 //HTML minify
@@ -38,7 +39,8 @@ function scssTask() {
   return (
     src(files.scssSrcPath, { sourcemaps: true }) // set source and turn on sourcemaps
       .pipe(sass()) // compile SCSS to CSS
-      // .pipe(postcss([autoprefixer("last 2 versions"), cssnano()])) // PostCSS plugins
+      //.pipe(purgecss({ content: ["app/src/**/*.html"] }))
+      //.pipe(postcss([autoprefixer("last 2 versions"), cssnano()])) // PostCSS plugins
       .pipe(dest("app/dist/css", { sourcemaps: "." }))
   ); // put final CSS in dist folder with sourcemap
 }
